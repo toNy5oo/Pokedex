@@ -1,7 +1,9 @@
 # Pokedex
+
 ###### Pokedex App
 
-## Technical requirements 
+## Technical requirements
+
 - HTML
 - JS
 - CSS
@@ -12,7 +14,9 @@
 - [Pokeapi](https://pokeapi.co/?ref=public-apis)
 
 ## Necessary tools
+
 - None atm
 
-## Connected database.
+## Connected database
+
 - None atm
