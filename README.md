@@ -7,7 +7,8 @@
 - CSS
 
 ## Libraries
-- [Pokedex](https://www.pokemon.com/us/pokedex/)
+
+- [Pokedex](https://pokedex.org/)
 - [Pokeapi](https://pokeapi.co/?ref=public-apis)
 
 ## Necessary tools
