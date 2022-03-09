@@ -40,3 +40,34 @@ let pokemonList = [
     types: ['water']
     } 
 ];
+
+ let singlePokemon = null;
+ const container = document.querySelector(".container");
+ const height = 69;
+
+for (let i = 0; i < pokemonList.length; i++) { 
+    //get a single object from the array of objects in the container
+    singlePokemon = pokemonList[i];  
+    
+    //Create a div with pokemon__item class
+    const pokemonItem = document.createElement('div');
+    
+    //Define class name for new div
+    pokemonItem.className = 'pokemon__item';
+    container.appendChild(pokemonItem);
+    
+    //Insert text into new div
+    pokemonItem.innerHTML =   'Name:        '+         singlePokemon.name+'<br>'+
+                              'Height:      '+         singlePokemon.height+'<br>'+
+                              'Weight:      '+         singlePokemon.weight+'<br>'+
+                              'Catch Rate:  '+     singlePokemon.catchRate+'<br>'+
+                              'Evolving at: '+    singlePokemon.evolvingLevel;  
+    
+    //Check Height of Pokemon                              
+        if (singlePokemon.height > height) {
+            pokemonItem.classList.add('big__pokemon');
+        }
+   
+}
+
+   
