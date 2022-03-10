@@ -9,7 +9,7 @@ let pokemonRepository = (function() {
         },
         {
             name: 'Charmander',
-            height: 60, //Expressed in cm
+            height: 60, //Expressed in cm 
             weight: 8.5, //Expressed in kg
             catchRate: 0, //Expressed in %
             evolvingLevel: 16,
@@ -56,49 +56,42 @@ let pokemonRepository = (function() {
             console.log(result);
             if (result.length === 0) alert("Pokemon Not Found");
             else alert("Pokemon found");
+        },
+        addListItem: function(pokemon) {
+            //Retrieve container DIV
+            const container = document.querySelector(".container");
+            //Create new element and assign class name
+            const pokemonItemDiv = document.createElement('div');
+            pokemonItemDiv.className = 'pokemon__item';
+
+            //Create a btn element
+            let button = document.createElement('button')
+            button.innerText = pokemon.name;
+            button.classList.add('pokemon__name--button');
+
+            //Invoke the function to add event listener
+            pokemonRepository.ifPokemonSelected(button, pokemon);
+
+            //adding the button to the new div
+            pokemonItemDiv.appendChild(button);
+
+            //Add the new div to the container
+            container.appendChild(pokemonItemDiv);
+        },
+        showDetails(pokemon) {
+            console.log('Selected ' + pokemon.name);
+        },
+        ifPokemonSelected(button, pokemon) {
+            //Adding an event listener to the button
+            button.addEventListener('click', function(event) {
+                //Invoking the showdetails function once the user clicks on the button
+                pokemonRepository.showDetails(pokemon);
+            });
         }
     };
 })();
 
-
-const container = document.querySelector(".container");
-const height = 69;
-
-//Iterate over pokemonList taking a function as parameter (Object, index, array)
-let pokemonList = pokemonRepository.getAll();
-
-pokemonList.forEach(createPokemonCard);
-
-function createPokemonCard(singlePokemon) {
-    //Create a div with pokemon__item class
-    const pokemonItemDiv = document.createElement('div');
-
-    //Define class name for new div
-    pokemonItemDiv.className = 'pokemon__item';
-    container.appendChild(pokemonItemDiv);
-
-    //Insert text into new div
-    pokemonItemDiv.innerHTML = 'Name:        ' + singlePokemon.name + '<br>' +
-        'Height:      ' + singlePokemon.height + '<br>' +
-        'Weight:      ' + singlePokemon.weight + '<br>' +
-        'Catch Rate:  ' + singlePokemon.catchRate + '<br>' +
-        'Evolving at: ' + singlePokemon.evolvingLevel;
-
-    //Check Height of Pokemon                              
-    if (singlePokemon.height > height) pokemonItemDiv.classList.add('big__pokemon');
-}
-
-//Test for find() function
-//pokemonRepository.find('Bulbasaure');
-
-//Test for pokemonRepository.add
-pokemonRepository.add({
-    name: 'Magikarp',
-    height: 90, //Expressed in cm
-    weight: 10, //Expressed in kg
-    catchRate: 0, //Expressed in %
-    evolvingLevel: 20,
-    types: ['water']
-});
-
-console.table(pokemonList);
+//Retrieve all the pokemons in an array of Objects
+//&&
+//Iterate over pokemonList taking a function as parameter (addListItem)
+let pokemonList = pokemonRepository.getAll().forEach(pokemon => pokemonRepository.addListItem(pokemon));
