@@ -109,10 +109,6 @@ header {
     padding: 2rem;
 }
 
-#pokeball__img {
-    padding: 1rem;
-}
-
 .pokemon__name--button {
     display: inline-block;
     padding: 0.7em 1.5em;
@@ -130,10 +126,18 @@ header {
     transition: all 0.2s;
 }
 
+.pokemon__name--button:hover {
+    border-color: rgb(30, 66, 167);
+    background-color: rgb(223, 184, 12);
+    color: #222;
+}
+
+#pokeball__img {
+    padding: 1rem;
+}
+
 .pokemon__name--button:hover+#pokeball__img {
-    border-color: rgb(41, 39, 39);
     animation: vibrate-1 0.3s cubic-bezier(0.550, 0.055, 0.675, 0.190) infinite both;
-    /* background: green; */
 }
 
 .pokemon__name--button:active+#pokeball__img {
