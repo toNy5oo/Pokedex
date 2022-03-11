@@ -64,6 +64,13 @@ let pokemonRepository = (function() {
             const pokemonItemDiv = document.createElement('div');
             pokemonItemDiv.className = 'pokemon__item';
 
+            //Create an img element
+            const pokeBallImg = document.createElement('img');
+            // pokeBallImg.className = 'pokeball__img';
+            pokeBallImg.setAttribute('id', 'pokeball__img')
+            pokeBallImg.setAttribute('src', 'https://img.icons8.com/color/50/000000/pokeball-2.png');
+            console.log(pokeBallImg);
+
             //Create a btn element
             let button = document.createElement('button')
             button.innerText = pokemon.name;
@@ -74,6 +81,9 @@ let pokemonRepository = (function() {
 
             //adding the button to the new div
             pokemonItemDiv.appendChild(button);
+
+            //adding the button to the new div
+            pokemonItemDiv.appendChild(pokeBallImg);
 
             //Add the new div to the container
             container.appendChild(pokemonItemDiv);
