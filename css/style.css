@@ -96,6 +96,7 @@ header {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 2rem;
     padding: 1rem;
+    justify-content: center;
 }
 
 .pokemon__item {
@@ -106,7 +107,7 @@ header {
     justify-content: center;
     align-items: center;
     font-size: 0.8em;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .pokemon__name--button {
@@ -119,7 +120,8 @@ header {
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
+    text-transform: uppercase;
     color: #ffffff;
     text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
     text-align: center;
@@ -129,7 +131,8 @@ header {
 .pokemon__name--button:hover {
     border-color: rgb(30, 66, 167);
     background-color: rgb(223, 184, 12);
-    color: #222;
+    color: rgb(37, 39, 201);
+    font-weight: 700;
 }
 
 #pokeball__img {
@@ -184,20 +187,17 @@ header {
     }
 }
 
-.vibrate-1 {}
-
-
-/* .pokemon__item--attribute {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--primary-color);
-} */
-
 .big__pokemon {
     box-shadow: rgb(216, 5, 5) 0px 1px 4px;
     border: #ee1a1a;
     border-radius: 1rem;
+}
+
+@media (min-width: 1278px) {
+    .container {
+        max-width: 50vw;
+        margin: 0 auto;
+    }
 }
 
 @media (min-width: 954px) and (max-width: 1278px) {
