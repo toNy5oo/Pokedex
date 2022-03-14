@@ -2,12 +2,13 @@ let pokemonRepository = (
     function() {
 
         let pokemonList = [];
-        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=900';
+        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=30';
 
         function add(pokemon) {
             //Checking if the pokemon added is an Object
             if (typeof pokemon === 'object') {
                 pokemonList.push(pokemon);
+                console.log(pokemon);
             } else alert("Not a valid pokemon");
         }
 
@@ -62,14 +63,15 @@ let pokemonRepository = (
         }
 
         function loadList() {
-            showLoadingMessage;
+            showLoadingMessage();
             return fetch(apiUrl).then(function(response) {
                 return response.json();
             }).then(function(json) {
                 json.results.forEach(function(fetchedPokemon) {
+                    console.log(fetchedPokemon);
                     let pokemon = {
                         name: fetchedPokemon.name,
-                        detailsUrl: fetchedPokemon.url
+                        detailsUrl: fetchedPokemon.url,
                     };
                     //Add single pokemon to Array
                     add(pokemon);
@@ -83,13 +85,14 @@ let pokemonRepository = (
 
         function loadDetails(pokemon) {
             //Get pokemon details using URL from parameter (pokemon.url)
-            showLoadingMessage;
+            showLoadingMessage();
             let url = pokemon.detailsUrl;
             return fetch(url).then(function(response) {
                 return response.json();
             }).then(function(details) {
                 // Now we add the details to the item
-                pokemon.imageUrl = details.sprites.front_default;
+
+                pokemon.imageUrl = details.sprites.other.dream_world.front_default;
                 pokemon.height = details.height;
                 pokemon.types = details.types;
                 hideLoadingMessage();
@@ -102,7 +105,9 @@ let pokemonRepository = (
         function showDetails(pokemon) {
             loadDetails(pokemon).then(function() {
                 //Add code for a new display here
-                showModal(pokemon.name, pokemon.height);
+
+
+                showModal(pokemon.name, pokemon.height, pokemon.imageUrl);
                 console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height);
 
             });
@@ -121,7 +126,7 @@ let pokemonRepository = (
             loadingMessageDiv.setAttribute('style', 'display: none');
         }
 
-        function showModal(title, text) {
+        function showModal(title, text, imageUrl) {
             let modalContainer = document.querySelector('.modal-container');
 
             //Make the div visible
@@ -130,6 +135,9 @@ let pokemonRepository = (
             //Inject text to the existint Divs with the parameters
             document.querySelector('.modal__title').innerText = title;
             document.querySelector('.modal__text').innerText = text;
+            document.querySelector('.modal__img').setAttribute('src', imageUrl);
+
+            console.log(imageUrl);
 
             //Define ESC or Click to close modal
             let closeButton = document.querySelector('.modal-close');
