@@ -32,7 +32,7 @@
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Fredoka', sans-serif;
     font-weight: 400;
     font-size: var(--extra-small-font);
     line-height: 1.8;
@@ -87,7 +87,7 @@ header {
 
 #pokemon__logo {
     padding: 2rem 0;
-    width: 70vw;
+    max-width: 50vw;
     height: auto;
 }
 
@@ -96,6 +96,7 @@ header {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 2rem;
     padding: 1rem;
+    justify-content: center;
 }
 
 .pokemon__item {
@@ -106,11 +107,7 @@ header {
     justify-content: center;
     align-items: center;
     font-size: 0.8em;
-    padding: 2rem;
-}
-
-#pokeball__img {
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 .pokemon__name--button {
@@ -123,17 +120,27 @@ header {
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
+    text-transform: uppercase;
     color: #ffffff;
     text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
     text-align: center;
     transition: all 0.2s;
 }
 
+.pokemon__name--button:hover {
+    border-color: rgb(30, 66, 167);
+    background-color: rgb(223, 184, 12);
+    color: rgb(37, 39, 201);
+    font-weight: 700;
+}
+
+#pokeball__img {
+    padding: 1rem;
+}
+
 .pokemon__name--button:hover+#pokeball__img {
-    border-color: rgb(41, 39, 39);
     animation: vibrate-1 0.3s cubic-bezier(0.550, 0.055, 0.675, 0.190) infinite both;
-    /* background: green; */
 }
 
 .pokemon__name--button:active+#pokeball__img {
@@ -142,6 +149,77 @@ header {
 
 .pokemon__name--button:active {
     opacity: 0.8;
+}
+
+#loading__message {
+    padding: 6rem 0;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+/*==================================================
+ 
+                    MODAL CSS
+
+==================================================*/
+
+.modal-container {
+    position: fixed;
+    padding: 10px;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    font-family: 'Fredoka', sans-serif;
+    margin: auto;
+    display: flex;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 0 10px;
+    border-radius: 10px;
+    padding: 15px;
+    width: 75vw;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.is-visible {
+    display: grid;
+}
+
+.modal__img {
+    width: 50vw;
+    height: auto;
+}
+
+.modal-close {
+    float: right;
+    -webkit-appearance: none;
+    border: 0;
+    background: none;
+    color: #777;
+    text-decoration: circle;
+}
+
+.modal h1 {
+    margin-top: 0;
+}
+
+.modal p {
+    margin-bottom: 0;
 }
 
 
@@ -180,20 +258,25 @@ header {
     }
 }
 
-.vibrate-1 {}
-
-
-/* .pokemon__item--attribute {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--primary-color);
-} */
-
 .big__pokemon {
     box-shadow: rgb(216, 5, 5) 0px 1px 4px;
     border: #ee1a1a;
     border-radius: 1rem;
+}
+
+@media (min-width: 1278px) {
+    .container {
+        max-width: 50vw;
+        margin: 0 auto;
+    }
+    /* Resize img of pokemon for large screen*/
+    .modal__img {
+        width: 10vw;
+        height: auto;
+    }
+    .modal {
+        width: 25vw;
+    }
 }
 
 @media (min-width: 954px) and (max-width: 1278px) {
@@ -201,12 +284,28 @@ header {
         grid-template-columns: repeat(4, 1fr);
         padding: 1rem;
     }
+    /* Resize img of pokemon for large screen*/
+    .modal__img {
+        width: 15vw;
+        height: auto;
+    }
+    .modal {
+        width: 30vw;
+    }
 }
 
 @media (min-width: 678px) and (max-width: 954px) {
     .container {
         grid-template-columns: 1fr 1fr 1fr;
         padding: 0.5rem;
+    }
+    /* Resize img of pokemon for large screen*/
+    .modal__img {
+        width: 20vw;
+        height: auto;
+    }
+    .modal {
+        width: 40vw;
     }
 }
 
