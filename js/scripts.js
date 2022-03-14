@@ -90,11 +90,12 @@ let pokemonRepository = (
             return fetch(url).then(function(response) {
                 return response.json();
             }).then(function(details) {
-                // Now we add the details to the item
-
+                // Add the details from the API to the item
                 pokemon.imageUrl = details.sprites.other.dream_world.front_default;
                 pokemon.height = details.height;
                 pokemon.types = details.types;
+                pokemon.weight = details.weight;
+                pokemon.abilities = details.abilities;
                 hideLoadingMessage();
             }).catch(function(e) {
                 hideLoadingMessage();
@@ -105,10 +106,8 @@ let pokemonRepository = (
         function showDetails(pokemon) {
             loadDetails(pokemon).then(function() {
                 //Add code for a new display here
-
-
-                showModal(pokemon.name, pokemon.height, pokemon.imageUrl);
-                console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height);
+                showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.abilities, pokemon.types, pokemon.imageUrl);
+                console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height + ' and a height of ' + pokemon.weight);
 
             });
         }
@@ -126,15 +125,18 @@ let pokemonRepository = (
             loadingMessageDiv.setAttribute('style', 'display: none');
         }
 
-        function showModal(title, text, imageUrl) {
+        function showModal(name, height, weight, abilities, types, imageUrl) {
             let modalContainer = document.querySelector('.modal-container');
 
             //Make the div visible
             modalContainer.classList.add('is-visible')
 
             //Inject text to the existint Divs with the parameters
-            document.querySelector('.modal__title').innerText = title;
-            document.querySelector('.modal__text').innerText = text;
+            document.querySelector('.modal__title').innerText = name;
+
+            let description = 'Height: ' + height + '<br>Weight: ' + weight;
+
+            document.querySelector('.modal__text').innerHTML = description;
             document.querySelector('.modal__img').setAttribute('src', imageUrl);
 
             console.log(imageUrl);
@@ -148,7 +150,6 @@ let pokemonRepository = (
                 if (e.key === 'Escape' && modalContainer.classList.contains('is-visible'))
                     hideModal();
             });
-
 
             modalContainer.classList.add('is-visible');
         }
