@@ -85,7 +85,6 @@ let pokemonRepository = (
 
         function loadDetails(pokemon) {
             //Get pokemon details using URL from parameter (pokemon.url)
-            showLoadingMessage();
             let url = pokemon.detailsUrl;
             return fetch(url).then(function(response) {
                 return response.json();
@@ -96,9 +95,7 @@ let pokemonRepository = (
                 pokemon.types = details.types;
                 pokemon.weight = details.weight;
                 pokemon.abilities = details.abilities;
-                hideLoadingMessage();
             }).catch(function(e) {
-                hideLoadingMessage();
                 console.error(e);
             });
         }
