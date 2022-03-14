@@ -274,6 +274,9 @@ header {
         width: 10vw;
         height: auto;
     }
+    .modal {
+        width: 25vw;
+    }
 }
 
 @media (min-width: 954px) and (max-width: 1278px) {
@@ -281,12 +284,28 @@ header {
         grid-template-columns: repeat(4, 1fr);
         padding: 1rem;
     }
+    /* Resize img of pokemon for large screen*/
+    .modal__img {
+        width: 15vw;
+        height: auto;
+    }
+    .modal {
+        width: 30vw;
+    }
 }
 
 @media (min-width: 678px) and (max-width: 954px) {
     .container {
         grid-template-columns: 1fr 1fr 1fr;
         padding: 0.5rem;
+    }
+    /* Resize img of pokemon for large screen*/
+    .modal__img {
+        width: 20vw;
+        height: auto;
+    }
+    .modal {
+        width: 40vw;
     }
 }
 
