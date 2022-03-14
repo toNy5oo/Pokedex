@@ -18,7 +18,6 @@ let pokemonRepository = (
         //Find a pokemon by name
         function find(text) {
             const result = pokemonList.filter(singlePokemon => singlePokemon.name === text);
-            console.log(result);
             if (result.length === 0) alert("Pokemon Not Found");
             else alert("Pokemon found");
         }
@@ -103,22 +102,52 @@ let pokemonRepository = (
         function showDetails(pokemon) {
             loadDetails(pokemon).then(function() {
                 //Add code for a new display here
+                showModal(pokemon.name, pokemon.height);
                 console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height);
+
             });
         }
 
         function showLoadingMessage() {
             const loadingMessageDiv = document.getElementById('loading__message');
-            console.log(loadingMessageDiv);
             //Hide the DIV from the page
             loadingMessageDiv.removeAttribute('style', 'display: none');
         }
 
         function hideLoadingMessage() {
             const loadingMessageDiv = document.getElementById('loading__message');
-            console.log(loadingMessageDiv);
+
             //Hide the DIV from the page
             loadingMessageDiv.setAttribute('style', 'display: none');
+        }
+
+        function showModal(title, text) {
+            let modalContainer = document.querySelector('.modal-container');
+
+            //Make the div visible
+            modalContainer.classList.add('is-visible')
+
+            //Inject text to the existint Divs with the parameters
+            document.querySelector('.modal__title').innerText = title;
+            document.querySelector('.modal__text').innerText = text;
+
+            //Define ESC or Click to close modal
+            let closeButton = document.querySelector('.modal-close');
+            closeButton.addEventListener('click', hideModal);
+
+            window.addEventListener('keydown', (e) => {
+                console.log(e.key);
+                if (e.key === 'Escape' && modalContainer.classList.contains('is-visible'))
+                    hideModal();
+            });
+
+
+            modalContainer.classList.add('is-visible');
+        }
+
+        function hideModal() {
+            let modalContainer = document.querySelector('.modal-container');
+            modalContainer.classList.remove('is-visible');
         }
 
         return {
@@ -130,7 +159,9 @@ let pokemonRepository = (
             addListItem: addListItem,
             ifPokemonSelected: ifPokemonSelected,
             showLoadingMessage: showLoadingMessage,
-            hideLoadingMessage: hideLoadingMessage
+            hideLoadingMessage: hideLoadingMessage,
+            showModal: showModal,
+            hideModal: hideModal
         };
     })();
 
@@ -138,5 +169,4 @@ pokemonRepository.loadList().then(function() {
     pokemonRepository.getAll().forEach(function(pokemon) {
         pokemonRepository.addListItem(pokemon);
     });
-    console.log('Pokemon list: ' + pokemonRepository.getAll().length);
 });
