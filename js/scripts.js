@@ -2,7 +2,7 @@ let pokemonRepository = (
     function() {
 
         let pokemonList = [];
-        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=30';
+        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=900';
 
         function add(pokemon) {
             //Checking if the pokemon added is an Object
@@ -25,21 +25,22 @@ let pokemonRepository = (
 
         function addListItem(pokemon) {
             //Retrieve container DIV
-            const container = document.querySelector(".container");
+            const container = document.querySelector(".row");
             //Create new element and assign class name
             const pokemonItemDiv = document.createElement('div');
-            pokemonItemDiv.className = 'pokemon__item';
+            pokemonItemDiv.setAttribute('id', 'pokemon__item')
+            pokemonItemDiv.className = 'col-xl-3 col-md-4 col-sm-6 p-2 gy-0 justify-content-center align-content-center d-flex flex-column justify-content-center align-items-center';
 
             //Create an img element
             const pokeBallImg = document.createElement('img');
             // pokeBallImg.className = 'pokeball__img';
             pokeBallImg.setAttribute('id', 'pokeball__img')
-            pokeBallImg.setAttribute('src', 'https://img.icons8.com/color/50/000000/pokeball-2.png');
+            pokeBallImg.setAttribute('src', 'img/png/superball-96.png');
 
             //Create a btn element
             let button = document.createElement('button')
             button.innerText = pokemon.name;
-            button.classList.add('pokemon__name--button');
+            button.classList.add('pokemon__name--button', 'btn-lg');
 
             //Invoke the function to add event listener
             pokemonRepository.ifPokemonSelected(button, pokemon);
