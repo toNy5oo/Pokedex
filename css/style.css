@@ -54,16 +54,6 @@ h5 {
     font-weight: 300;
 }
 
-a {
-    color: var(--link-color);
-    text-decoration: none;
-}
-
-a:hover,
-a:focus {
-    text-decoration: none;
-}
-
 
 /* _________________*/
 
@@ -104,6 +94,7 @@ a:focus {
 
 #pokeball__img {
     padding: 1rem;
+    max-width: 6rem;
 }
 
 .pokemon__name--button:hover+#pokeball__img {

@@ -2,7 +2,7 @@ let pokemonRepository = (
     function() {
 
         let pokemonList = [];
-        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=900';
+        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=500';
 
         function add(pokemon) {
             //Checking if the pokemon added is an Object
@@ -29,7 +29,7 @@ let pokemonRepository = (
             //Create new element and assign class name
             const pokemonItemDiv = document.createElement('div');
             pokemonItemDiv.setAttribute('id', 'pokemon__item')
-            pokemonItemDiv.className = 'col-xl-3 col-md-4 col-sm-6 p-2 gy-0 justify-content-center align-content-center d-flex flex-column justify-content-center align-items-center';
+            pokemonItemDiv.className = 'col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center';
 
             //Create an img element
             const pokeBallImg = document.createElement('img');
@@ -176,4 +176,5 @@ pokemonRepository.loadList().then(function() {
     pokemonRepository.getAll().forEach(function(pokemon) {
         pokemonRepository.addListItem(pokemon);
     });
+
 });
