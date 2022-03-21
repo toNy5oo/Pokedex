@@ -1,14 +1,14 @@
 let pokemonRepository = (
     function() {
 
-        let pokemonList = [];
-        let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=500';
+        const pokemonList = [];
+        const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=500';
 
         function add(pokemon) {
             //Checking if the pokemon added is an Object
             if (typeof pokemon === 'object') {
                 pokemonList.push(pokemon);
-                console.log(pokemon);
+                //console.log(pokemon);
             } else alert("Not a valid pokemon");
         }
 
@@ -25,16 +25,16 @@ let pokemonRepository = (
 
         function addListItem(pokemon) {
             //Retrieve container DIV
-            const container = document.querySelector(".row");
+            const container = document.querySelector(".pokemon__column");
             //Create new element and assign class name
             const pokemonItemDiv = document.createElement('div');
-            pokemonItemDiv.setAttribute('id', 'pokemon__item')
-            pokemonItemDiv.className = 'col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center';
+            // pokemonItemDiv.setAttribute('id', 'pokemon__item') // Id should be unique
+            pokemonItemDiv.className = 'pokemon__item col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center';
 
             //Create an img element
             const pokeBallImg = document.createElement('img');
             // pokeBallImg.className = 'pokeball__img';
-            pokeBallImg.setAttribute('id', 'pokeball__img')
+            pokeBallImg.setAttribute('class', 'pokeball__img')
             pokeBallImg.setAttribute('src', 'img/png/superball-96.png');
 
             //Create a btn element
@@ -71,7 +71,7 @@ let pokemonRepository = (
                 return response.json();
             }).then(function(json) {
                 json.results.forEach(function(fetchedPokemon) {
-                    console.log(fetchedPokemon);
+                    //console.log(fetchedPokemon);
                     let pokemon = {
                         name: fetchedPokemon.name,
                         detailsUrl: fetchedPokemon.url,
@@ -110,7 +110,7 @@ let pokemonRepository = (
             loadDetails(pokemon).then(function() {
                 //Add code for a new display here
                 showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.abilities, pokemon.types, pokemon.imageUrl);
-                console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height + ' and a height of ' + pokemon.weight);
+                //console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height + ' and a height of ' + pokemon.weight);
 
             });
         }
@@ -135,7 +135,7 @@ let pokemonRepository = (
             $('.img__attr').attr('src', imageUrl);
 
             //Injecting values into the div
-            $('.height__attr').text(height + 'cm');
+            $('.height__attr').text(height * 10 + 'cm');
             $('.weight__attr').text(weight / 10 + 'kg');
 
             //Spacing properly the list of abilities
@@ -157,8 +157,8 @@ let pokemonRepository = (
         }
 
         return {
-            add: add,
-            getAll: getAll,
+            add,
+            getAll,
             loadList: loadList,
             loadDetails: loadDetails,
             showDetails: showDetails,
@@ -175,6 +175,6 @@ let pokemonRepository = (
 pokemonRepository.loadList().then(function() {
     pokemonRepository.getAll().forEach(function(pokemon) {
         pokemonRepository.addListItem(pokemon);
-    });
 
+    });
 });

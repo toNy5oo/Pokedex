@@ -92,16 +92,16 @@ h5 {
     max-width: 20rem;
 }
 
-#pokeball__img {
+.pokeball__img {
     padding: 1rem;
     max-width: 6rem;
 }
 
-.pokemon__name--button:hover+#pokeball__img {
+.pokemon__name--button:hover+.pokeball__img {
     animation: vibrate-1 0.3s cubic-bezier(0.550, 0.055, 0.675, 0.190) infinite both;
 }
 
-.pokemon__name--button:active+#pokeball__img {
+.pokemon__name--button:active+.pokeball__img {
     animation: none;
 }
 
