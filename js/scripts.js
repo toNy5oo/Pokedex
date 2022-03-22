@@ -1,180 +1,22 @@
-let pokemonRepository = (
-    function() {
+let pokemonRepository = function() { const t = [],
+        e = "https://pokeapi.co/api/v2/pokemon/?limit=500";
 
-        const pokemonList = [];
-        const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=500';
+    function n(e) { "object" == typeof e ? t.push(e) : alert("Not a valid pokemon") }
 
-        function add(pokemon) {
-            //Checking if the pokemon added is an Object
-            if (typeof pokemon === 'object') {
-                pokemonList.push(pokemon);
-                //console.log(pokemon);
-            } else alert("Not a valid pokemon");
-        }
+    function o(t) { let e = t.detailsUrl; return fetch(e).then(function(t) { return t.json() }).then(function(e) { t.imageUrl = e.sprites.other.dream_world.front_default, t.height = e.height, t.types = e.types, t.weight = e.weight, t.abilities = []; for (let n = 0; n < e.abilities.length; n++) t.abilities.push(e.abilities[n].ability.name) }).catch(function(t) { console.error(t) }) }
 
-        function getAll() {
-            return pokemonList;
-        }
+    function i() { $("#loading__message").attr("style", "display: block"), $(".header__message").attr("style", "display: none") }
 
-        //Find a pokemon by name
-        function find(text) {
-            const result = pokemonList.filter(singlePokemon => singlePokemon.name === text);
-            if (result.length === 0) alert("Pokemon Not Found");
-            else alert("Pokemon found");
-        }
+    function a() { $("#loading__message").attr("style", "display: none"), $(".header__message").attr("style", "display: block") }
 
-        function addListItem(pokemon) {
-            //Retrieve container DIV
-            const container = document.querySelector(".pokemon__column");
-            //Create new element and assign class name
-            const pokemonItemDiv = document.createElement('div');
-            // pokemonItemDiv.setAttribute('id', 'pokemon__item') // Id should be unique
-            pokemonItemDiv.className = 'pokemon__item col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center';
+    function l(t, e, n, o, i, a) { $(".img__attr").attr("src", "img/gif/pika_loading.gif"), $(".img__attr").addClass("loading_gif"), $(".name__attr").text(t), console.log("Injecting image " + a), $(".img__attr").attr("src", a), $(".height__attr").text(10 * e + "cm"), $(".weight__attr").text(n / 10 + "kg"); let l = o.join(", ");
+        $(".abilities__attr").text(l), s() }
 
-            //Create an img element
-            const pokeBallImg = document.createElement('img');
-            // pokeBallImg.className = 'pokeball__img';
-            pokeBallImg.setAttribute('class', 'pokeball__img')
-            pokeBallImg.setAttribute('src', 'img/png/superball-96.png');
+    function s() { $(".close").on("click", () => r()) }
 
-            //Create a btn element
-            let button = document.createElement('button')
-            button.innerText = pokemon.name;
-            button.classList.add('pokemon__name--button', 'btn-lg');
-            button.setAttribute('data-toggle', 'modal');
-            button.setAttribute('data-target', '#pokemonModal');
-
-            //Invoke the function to add event listener
-            pokemonRepository.ifPokemonSelected(button, pokemon);
-
-            //adding the button to the new div
-            pokemonItemDiv.appendChild(button);
-
-            //adding the button to the new div
-            pokemonItemDiv.appendChild(pokeBallImg);
-
-            //Add the new div to the container
-            container.appendChild(pokemonItemDiv);
-        }
-
-        function ifPokemonSelected(button, pokemon) {
-            //Adding an event listener to the button
-            button.addEventListener('click', function(event) {
-                //Invoking the showdetails function once the user clicks on the button
-                pokemonRepository.showDetails(pokemon);
-            });
-        }
-
-        function loadList() {
-            showLoadingMessage();
-            return fetch(apiUrl).then(function(response) {
-                return response.json();
-            }).then(function(json) {
-                json.results.forEach(function(fetchedPokemon) {
-                    //console.log(fetchedPokemon);
-                    let pokemon = {
-                        name: fetchedPokemon.name,
-                        detailsUrl: fetchedPokemon.url,
-                    };
-                    //Add single pokemon to Array
-                    add(pokemon);
-                    hideLoadingMessage();
-                });
-            }).catch(function(e) {
-                hideLoadingMessage();
-                console.error(e);
-            })
-        }
-
-        function loadDetails(pokemon) {
-            //Get pokemon details using URL from parameter (pokemon.url)
-            let url = pokemon.detailsUrl;
-            return fetch(url).then(function(response) {
-                return response.json();
-            }).then(function(details) {
-                // Add the details from the API to the item
-                pokemon.imageUrl = details.sprites.other.dream_world.front_default;
-                pokemon.height = details.height;
-                pokemon.types = details.types;
-                pokemon.weight = details.weight;
-                pokemon.abilities = [];
-                for (let i = 0; i < details.abilities.length; i++) {
-                    pokemon.abilities.push(details.abilities[i].ability.name);
-                }
-            }).catch(function(e) {
-                console.error(e);
-            });
-        }
-
-        function showDetails(pokemon) {
-            loadDetails(pokemon).then(function() {
-                //Add code for a new display here
-                showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.abilities, pokemon.types, pokemon.imageUrl);
-                //console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height + ' and a height of ' + pokemon.weight);
-
-            });
-        }
-
-        function showLoadingMessage() {
-            $('#loading__message').attr('style', 'display: block');
-            $('.header__message').attr('style', 'display: none');
-        }
-
-        function hideLoadingMessage() {
-            $('#loading__message').attr('style', 'display: none');
-            $('.header__message').attr('style', 'display: block');
-        }
-
-        function showModal(name, height, weight, abilities, types, imageUrl) {
-            //Placing a loading gif to wait for the image to be loaded
-            $('.img__attr').attr('src', 'img/gif/pika_loading.gif');
-            $('.img__attr').addClass('loading_gif');
-
-            $('.name__attr').text(name);
-            console.log("Injecting image " + imageUrl);
-            $('.img__attr').attr('src', imageUrl);
-
-            //Injecting values into the div
-            $('.height__attr').text(height * 10 + 'cm');
-            $('.weight__attr').text(weight / 10 + 'kg');
-
-            //Spacing properly the list of abilities
-            let skills = abilities.join(', ');
-            $('.abilities__attr').text(skills);
-
-            hideModal();
-        }
-
-        function hideModal() {
-            $('.close').on('click', () => resetModal());
-        }
-
-        function resetModal() {
-            $('.name__attr').text('...');
-            $('.height__attr').text('...');
-            $('.weight__attr').text('...');
-            $('.img__attr').attr('src', '');
-        }
-
-        return {
-            add,
-            getAll,
-            loadList: loadList,
-            loadDetails: loadDetails,
-            showDetails: showDetails,
-            addListItem: addListItem,
-            ifPokemonSelected: ifPokemonSelected,
-            showLoadingMessage: showLoadingMessage,
-            hideLoadingMessage: hideLoadingMessage,
-            showModal: showModal,
-            hideModal: hideModal,
-            resetModal: resetModal
-        };
-    })();
-
-pokemonRepository.loadList().then(function() {
-    pokemonRepository.getAll().forEach(function(pokemon) {
-        pokemonRepository.addListItem(pokemon);
-
-    });
-});
+    function r() { $(".name__attr").text("..."), $(".height__attr").text("..."), $(".weight__attr").text("..."), $(".img__attr").attr("src", "") } return { add: n, getAll: function() { return t }, loadList: function() { return i(), fetch(e).then(function(t) { return t.json() }).then(function(t) { t.results.forEach(function(t) { n({ name: t.name, detailsUrl: t.url }), a() }) }).catch(function(t) { a(), console.error(t) }) }, loadDetails: o, showDetails: function(t) { o(t).then(function() { l(t.name, t.height, t.weight, t.abilities, t.types, t.imageUrl) }) }, addListItem: function(t) { const e = document.querySelector(".pokemon__column"),
+                n = document.createElement("div");
+            n.className = "pokemon__item col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center"; const o = document.createElement("img");
+            o.setAttribute("class", "pokeball__img"), o.setAttribute("src", "img/png/superball-96.png"); let i = document.createElement("button");
+            i.innerText = t.name, i.classList.add("pokemon__name--button", "btn-lg"), i.setAttribute("data-toggle", "modal"), i.setAttribute("data-target", "#pokemonModal"), pokemonRepository.ifPokemonSelected(i, t), n.appendChild(i), n.appendChild(o), e.appendChild(n) }, ifPokemonSelected: function(t, e) { t.addEventListener("click", function(t) { pokemonRepository.showDetails(e) }) }, showLoadingMessage: i, hideLoadingMessage: a, showModal: l, hideModal: s, resetModal: r } }();
+pokemonRepository.loadList().then(function() { pokemonRepository.getAll().forEach(function(t) { pokemonRepository.addListItem(t) }) });
