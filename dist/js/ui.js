@@ -1,33 +1,3 @@
-//SEARCH FUNCTION
-
-// const searchInput = document.querySelector(".search");
-// searchInput.addEventListener("input", () => {
-//     const pokemonList = document.querySelectorAll(".pokemon__item");
-//     const searchValue = searchInput.value.toUpperCase();
-
-//     pokemonList.forEach((p) => {
-//         const btnText = p.childNodes[0].innerText;
-//         if (!btnText.includes(searchValue)) {
-//             console.log(p);
-//             p.style.setProperty("display", "none", "important");
-//         } else {
-//             p.style.display = "";
-//         }
-//     })
-// })
-
-
-// JQUERY VERSION
-
-$(".search").on('input', () => {
-    const pokemonList = $(".pokemon__item");
-    const searchValue = $(".search").val().toUpperCase();
-    console.log(searchValue);
-
-    pokemonList.each((i, p) => {
-        const btnText = p.firstChild.innerText;
-
-        !btnText.includes(searchValue) ? p.setAttribute('style', 'display: none !important') : p.style.display = "";
-    });
-
-});
+$(".search").on("input", () => { const e = $(".pokemon__item"),
+        t = $(".search").val().toUpperCase();
+    console.log(t), e.each((e, s) => { s.firstChild.innerText.includes(t) ? s.style.display = "" : s.setAttribute("style", "display: none !important") }) });
