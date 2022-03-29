@@ -48,8 +48,16 @@
                 <h1>Loading the list of Pokemons</h1>
                 <img class="card-img-top modal-img loading_gif" src="img/gif/pika_loading.gif">
             </div>
-            <div class="col text-center p-5">
-                List of available pokemons, click on the name to see its details
+            <div class="col-8 text-center p-5">
+                <h5>List of available pokemons, click on the name to see its details</h5>
+            </div>
+            <div class="col-4 text-center p-5">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option selected>Pokemons to show</option>
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="0">All</option>
+                  </select>
             </div>
         </div>
         <div class="row">
@@ -62,13 +70,10 @@
 
     <nav class="p-3" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item prev-item disabled">
+            <li class="page-item disabled">
                 <a class="page-link prev" href="#" tabindex="-1">Previous</a>
             </li>
-            <li class="page-item"><a class="page-link page-number" href="#">1</a></li>
-            <li class="page-item"><a class="page-link page-number" href="#">2</a></li>
-            <li class="page-item"><a class="page-link page-number" href="#">3</a></li>
-            <li class="page-item next-item">
+            <li class="page-item">
                 <button class="page-link next">Next</button>
             </li>
         </ul>

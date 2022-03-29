@@ -33,8 +33,7 @@ const uiElement = (
 
         function updatePagination(next, prev) {
 
-            console.log(next + ' ' + prev);
-
+            
             if (next != undefined) {
                 nextUrl = next;
                 console.log('Updated Next fetch address ' + nextUrl);
@@ -42,6 +41,7 @@ const uiElement = (
             } else $('.next-item').addClass('disabled');
             if (prev != undefined) {
                 prevUrl = prev;
+                console.log('Updated Prev fetch address ' + prevUrl);
                 $('.prev-item').removeClass('disabled');
             } else $('.prev-item').addClass('disabled');
 
@@ -137,18 +137,16 @@ $(".search").on('input', () => {
 
 $(".next").on('click', (e) => {
     uiElement.getNextPokemonsBatch(e);
-    let paginationPages = $('.page-number');
-    paginationPages.forEach(element => {
-
-
-        console.log(element);
-        element.innerText = i + 1;
-        i++;
-    });
+    
+        if (paginationIndex != 1)
+        $('.pagination').firstChild.removeClass('disabled');
+    
 });
 
 $(".prev").on('click', (e) => {
     uiElement.getNextPokemonsBatch(e);
+    if (paginationIndex == 1)
+        $('.pagination').firstChild.addClass('disabled');
 });
 
 

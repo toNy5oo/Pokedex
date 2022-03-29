@@ -26,6 +26,7 @@ const pokemonRepository = (
                 return response.json();
             }).then(function(json) {
 
+                console.log('Next: '+json.next+'<br>Prev: '+json.prev);
                 uiElement.updatePagination(json.next, json.prev);
 
                 json.results.forEach(function(fetchedPokemon) {
@@ -75,7 +76,6 @@ const pokemonRepository = (
 
             //Add the new div to the container
             container.appendChild(pokemonItemDiv);
-            console.log('Pokemon:' + pokemon.name);
         }
 
         function loadDetails(pokemon) {
@@ -114,7 +114,6 @@ const pokemonRepository = (
             loadDetails(pokemon).then(function() {
                 //Add code for a new display here
                 uiElement.showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.abilities, pokemon.types, pokemon.imageUrl);
-                //console.log('Pokemon Selected: ' + pokemon.name + ' with a height of ' + pokemon.height + ' and a height of ' + pokemon.weight);
 
             });
         }
