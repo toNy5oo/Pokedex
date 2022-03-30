@@ -1,22 +1,52 @@
-let pokemonRepository = function() { const t = [],
-        e = "https://pokeapi.co/api/v2/pokemon/?limit=500";
+const INIT_API_URL = 'https://pokeapi.co/api/v2/pokemon/?limit=12';
+const pokemonRepository = (function() {
+    let pokemonList = [];
 
-    function n(e) { "object" == typeof e ? t.push(e) : alert("Not a valid pokemon") }
+    function add(pokemon) { if (typeof pokemon === 'object') { pokemonList.push(pokemon) } else alert("Not a valid pokemon") }
 
-    function o(t) { let e = t.detailsUrl; return fetch(e).then(function(t) { return t.json() }).then(function(e) { t.imageUrl = e.sprites.other.dream_world.front_default, t.height = e.height, t.types = e.types, t.weight = e.weight, t.abilities = []; for (let n = 0; n < e.abilities.length; n++) t.abilities.push(e.abilities[n].ability.name) }).catch(function(t) { console.error(t) }) }
+    function find(text) { const result = pokemonList.filter(singlePokemon => singlePokemon.name === text); if (result.length === 0) alert("Pokemon Not Found");
+        else alert("Pokemon found") }
 
-    function i() { $("#loading__message").attr("style", "display: block"), $(".header__message").attr("style", "display: none") }
+    function loadList(url) { return fetch(url).then(function(response) { return response.json() }).then(function(json) { console.log('Next: ' + json.next + '<br>Prev: ' + json.previous);
+            uiElement.updatePagination(json.next, json.previous);
+            json.results.forEach(function(fetchedPokemon) { let pokemon = { name: fetchedPokemon.name, detailsUrl: fetchedPokemon.url, };
+                add(pokemon);
+                uiElement.hideLoadingMessage() }) }).catch(function(e) { uiElement.hideLoadingMessage();
+            console.error(e) }) }
 
-    function a() { $("#loading__message").attr("style", "display: none"), $(".header__message").attr("style", "display: block") }
+    function addListItem(pokemon) {
+        const container = document.querySelector(".pokemon__column");
+        const pokemonItemDiv = document.createElement('div');
+        pokemonItemDiv.className = 'pokemon__item col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center';
+        const pokeBallImg = document.createElement('img');
+        pokeBallImg.setAttribute('class', 'pokeball__img')
+        pokeBallImg.setAttribute('src', 'img/png/superball-96.png');
+        let button = document.createElement('button')
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon__name--button', 'btn-lg');
+        button.setAttribute('data-toggle', 'modal');
+        button.setAttribute('data-target', '#pokemonModal');
+        pokemonRepository.ifPokemonSelected(button, pokemon);
+        pokemonItemDiv.appendChild(button);
+        pokemonItemDiv.appendChild(pokeBallImg);
+        container.appendChild(pokemonItemDiv)
+    }
 
-    function l(t, e, n, o, i, a) { $(".img__attr").attr("src", "img/gif/pika_loading.gif"), $(".img__attr").addClass("loading_gif"), $(".name__attr").text(t), console.log("Injecting image " + a), $(".img__attr").attr("src", a), $(".height__attr").text(10 * e + "cm"), $(".weight__attr").text(n / 10 + "kg"); let l = o.join(", ");
-        $(".abilities__attr").text(l), s() }
+    function loadDetails(pokemon) { let url = pokemon.detailsUrl; return fetch(url).then(function(response) { return response.json() }).then(function(details) { pokemon.imageUrl = details.sprites.other.dream_world.front_default;
+            pokemon.height = details.height;
+            pokemon.types = details.types;
+            pokemon.weight = details.weight;
+            pokemon.abilities = []; for (let i = 0; i < details.abilities.length; i++) { pokemon.abilities.push(details.abilities[i].ability.name) } }).catch(function(e) { console.error(e) }) }
 
-    function s() { $(".close").on("click", () => r()) }
+    function ifPokemonSelected(button, pokemon) { button.addEventListener('click', function(event) { pokemonRepository.showDetails(pokemon) }) }
 
-    function r() { $(".name__attr").text("..."), $(".height__attr").text("..."), $(".weight__attr").text("..."), $(".img__attr").attr("src", "") } return { add: n, getAll: function() { return t }, loadList: function() { return i(), fetch(e).then(function(t) { return t.json() }).then(function(t) { t.results.forEach(function(t) { n({ name: t.name, detailsUrl: t.url }), a() }) }).catch(function(t) { a(), console.error(t) }) }, loadDetails: o, showDetails: function(t) { o(t).then(function() { l(t.name, t.height, t.weight, t.abilities, t.types, t.imageUrl) }) }, addListItem: function(t) { const e = document.querySelector(".pokemon__column"),
-                n = document.createElement("div");
-            n.className = "pokemon__item col-xl-3 col-md-4 col-sm-6 p-2 gy-0 d-flex flex-column align-items-center"; const o = document.createElement("img");
-            o.setAttribute("class", "pokeball__img"), o.setAttribute("src", "img/png/superball-96.png"); let i = document.createElement("button");
-            i.innerText = t.name, i.classList.add("pokemon__name--button", "btn-lg"), i.setAttribute("data-toggle", "modal"), i.setAttribute("data-target", "#pokemonModal"), pokemonRepository.ifPokemonSelected(i, t), n.appendChild(i), n.appendChild(o), e.appendChild(n) }, ifPokemonSelected: function(t, e) { t.addEventListener("click", function(t) { pokemonRepository.showDetails(e) }) }, showLoadingMessage: i, hideLoadingMessage: a, showModal: l, hideModal: s, resetModal: r } }();
-pokemonRepository.loadList().then(function() { pokemonRepository.getAll().forEach(function(t) { pokemonRepository.addListItem(t) }) });
+    function getAll() { return pokemonList }
+
+    function showDetails(pokemon) { loadDetails(pokemon).then(function() { uiElement.showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.abilities, pokemon.types, pokemon.imageUrl) }) }
+
+    function emptyPokemonsList() { pokemonList = [] }
+
+    function renderPage(URL) { pokemonRepository.loadList(URL).then(function() { pokemonRepository.getAll().forEach(function(pokemon) { pokemonRepository.addListItem(pokemon) }) }) }
+    return { add, getAll, loadList, loadDetails, showDetails, addListItem, ifPokemonSelected, emptyPokemonsList, renderPage }
+})();
+pokemonRepository.renderPage(INIT_API_URL)
