@@ -21,7 +21,7 @@ const pokemonRepository = (
         }
 
         function loadList(url) {
-            uiElement.showLoadingMessage();
+            //uiElement.showLoadingMessage();
             return fetch(url).then(function(response) {
                 return response.json();
             }).then(function(json) {

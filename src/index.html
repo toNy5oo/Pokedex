@@ -21,7 +21,7 @@
 
     <!-- NAVIGATION BAR -->
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    <nav class="navbar py-0 navbar-expand-lg navbar-light bg-light justify-content-between">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon float-right" aria-label="Toggle navigation"></span>
           </button>
@@ -50,16 +50,33 @@
             </div>
         </div>
         <div class="row header_container">
-            <div class="col-lg-8 col-sm-12 text-center m-auto ">
+            <div class="col-lg-8 col-sm-12 text-center m-auto py-5">
                 <h5>List of available pokemons, click on the name to see its details</h5>
             </div>
-            <div class="col-lg-4 col-sm-12 text-center my-3">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option selected>Pokemons to show</option>
+            <div class="col-lg-4 col-sm-12 text-center my-3 py-4">
+                <h5>Pokemons to show</h5>
+                <select class="form-select form-select-sm" label="test" aria-label=".form-select-sm example">
                     <option value="12">12</option>
                     <option value="24">24</option>
-                    <option value="0">All</option>
+                    <option value="ALL">All</option>
                   </select>
+            </div>
+        </div>
+        <div class="row pagination">
+            <div class="col">
+                <nav class="p-3" aria-label="Page navigation example">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item prev-item disabled">
+                            <a class="page-link prev" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item disabled">
+                            <button class="page-link status" data-link=""></button>
+                        </li>
+                        <li class="page-item next-item">
+                            <button class="page-link next" data-link="">Next</button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <div class="row">
@@ -69,20 +86,6 @@
             <!-- Will be populated with Pokemons with the script -->
         </div>
     </header>
-
-    <nav class="p-3" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item prev-item disabled">
-                <a class="page-link prev" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link status" href=""></a>
-            </li>
-            <li class="page-item next-item">
-                <a class="page-link next" href="">Next</a>
-            </li>
-        </ul>
-    </nav>
 
 
     <!-- MODAL TO SHOW SINGLE POKEMON -->

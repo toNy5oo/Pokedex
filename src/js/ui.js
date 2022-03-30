@@ -1,10 +1,11 @@
 const maxPage = 56;
-let nextUrl = null;
-let prevUrl = null;
-//const NEXT_API_URL = 'https://pokeapi.co/api/v2/pokemon/?offset=';
-let offset = 12;
-const limit = 12;
+let API_URL = 'https://pokeapi.co/api/v2/pokemon/?offset=';
+var offset = 0;
+var limit = 12;
 let paginationIndex = 1;
+var CURRENT_API_URL = API_URL + offset + '&limit=' + limit;
+const ALL_API_URL = 'https://pokeapi.co/api/v2/pokemon/?limit=1192'
+
 
 const uiElement = (
 
@@ -12,30 +13,37 @@ const uiElement = (
 
         function updatePagination(next, prev) {
 
-            if (next != undefined) {
-                $('.next').attr('href', next);
-                nextUrl = next;
-                console.log('Updated Next fetch address ' + nextUrl);
+            if (next) {
+                //Set new link
+                $('.next').attr('data-link', next);
                 $('.next-item').removeClass('disabled');
             } else $('.next-item').addClass('disabled');
-            if (prev != undefined) {
-                $('.prev').attr('href', prev);
-                console.log('Updated Prev fetch address ' + prevUrl);
+            if (prev) {
+                $('.prev').attr('data-link', prev);
                 $('.prev-item').removeClass('disabled');
             } else $('.prev-item').addClass('disabled');
+
+            //Updates the status number of the pagination
+            //returns the first integer greater than or equal to the float.
+            let maxPages = Math.ceil(1126 / limit)
+            $('.status').text(paginationIndex + '/' + maxPages);
 
         }
 
         function showLoadingMessage() {
-            $('.header_container').hide();
-            $('#loading__message').show();
-            $('.header__message').hide();
+            if (paginationIndex == 1) {
+                $('.header_container').hide();
+                $('#loading__message').show();
+                $('.header__message').hide();
+            }
         }
 
         function hideLoadingMessage() {
-            $('#loading__message').hide();
-            $('.header__message').show();
-            $('.header_container').hide();
+            if (paginationIndex == 1) {
+                $('#loading__message').hide();
+                $('.header__message').show();
+                $('.header_container').show();
+            }
         }
 
         function showModal(name, height, weight, abilities, types, imageUrl) {
@@ -44,7 +52,6 @@ const uiElement = (
             $('.img__attr').addClass('loading_gif');
 
             $('.name__attr').text(name);
-            console.log("Injecting image " + imageUrl);
             $('.img__attr').attr('src', imageUrl);
 
             //Injecting values into the div
@@ -69,26 +76,54 @@ const uiElement = (
             $('.img__attr').attr('src', '');
         }
 
-        function getPokemonsBatch(e, url) {
-            cleanUI(e);
+        function getPokemonsBatch(url) {
+            cleanUI();
             pokemonRepository.renderPage(url);
         }
 
-        function cleanUI(e) {
-            e.preventDefault();
+        function cleanUI() {
             $('.pokemon__column').empty();
             pokemonRepository.emptyPokemonsList();
         }
 
+        function changeAmountPokemonsToShow(value) {
+
+            if (value != 'ALL') {
+
+                $('.search').hide();
+                $('.pagination').show();
+                limit = value;
+
+                if (value == '24')
+                    offset = (((value * paginationIndex) - value)) / 2;
+
+                else
+                    offset = ((value * paginationIndex) - value);
+
+                cleanUI();
+
+                CURRENT_API_URL = API_URL + offset + '&limit=' + limit;
+                pokemonRepository.renderPage(CURRENT_API_URL);
+
+            } else {
+                $('.search').show();
+                $('.pagination').hide();
+                cleanUI();
+                pokemonRepository.renderPage(ALL_API_URL);
+
+            }
+        }
+
         return {
-            showLoadingMessage,
+            //showLoadingMessage,
             hideLoadingMessage,
             showModal,
             hideModal,
             resetModal,
             updatePagination,
             getPokemonsBatch,
-            cleanUI
+            cleanUI,
+            changeAmountPokemonsToShow
         };
     })();
 
@@ -107,17 +142,26 @@ $(".search").on('input', () => {
     });
 });
 
-$(".next").on('click', (e) => {
-    let nextUrl = $(".next").attr('href');
-    uiElement.getPokemonsBatch(e, nextUrl);
+$(".next").on('click', ($e) => {
+    $e.preventDefault();
+    let nextUrl = $(".next").attr('data-link');
+    console.log(nextUrl);
+    uiElement.getPokemonsBatch(nextUrl);
+    paginationIndex++;
 });
 
-$(".prev").on('click', (e) => {
-    let prevUrl = $(".prev").attr('href');
-    uiElement.getPokemonsBatch(e, prevUrl);
+$(".prev").on('click', ($e) => {
+    $e.preventDefault();
+    let prevUrl = $(".prev").attr('data-link');
+    uiElement.getPokemonsBatch(prevUrl);
+    paginationIndex--;
 });
 
-
+$('.form-select').change(function() {
+    let selectValue = $(this).val();
+    //console.log('Value ' + selectValue);
+    uiElement.changeAmountPokemonsToShow(selectValue);
+});
 
 
 
