@@ -10,37 +10,16 @@ const uiElement = (
 
     function() {
 
-        // function activateListeners() {
-        //     let prevButton = document.querySelector('.prev');
-        //     let nextButton = document.querySelector('.next');
-
-        //     prevButton.addEventListener('click', () => {
-        //         alert('Test');
-        //     });
-
-        //     nextButton.addEventListener('click', () => {
-        //         alert('Test');
-        //     });
-        //     // prev.addEventListener('click', alert('Test'));
-
-        //     // $('.prev').on('click', () => {
-
-        //     // });
-        //     // $('.next').on('click', () => {
-        //     //     alert('Test 2');
-        //     // });
-        // }
-
         function updatePagination(next, prev) {
 
-            
             if (next != undefined) {
+                $('.next').attr('href', next);
                 nextUrl = next;
                 console.log('Updated Next fetch address ' + nextUrl);
                 $('.next-item').removeClass('disabled');
             } else $('.next-item').addClass('disabled');
             if (prev != undefined) {
-                prevUrl = prev;
+                $('.prev').attr('href', prev);
                 console.log('Updated Prev fetch address ' + prevUrl);
                 $('.prev-item').removeClass('disabled');
             } else $('.prev-item').addClass('disabled');
@@ -48,13 +27,15 @@ const uiElement = (
         }
 
         function showLoadingMessage() {
-            $('#loading__message').attr('style', 'display: block');
-            $('.header__message').attr('style', 'display: none');
+            $('.header_container').hide();
+            $('#loading__message').show();
+            $('.header__message').hide();
         }
 
         function hideLoadingMessage() {
-            $('#loading__message').attr('style', 'display: none');
-            $('.header__message').attr('style', 'display: block');
+            $('#loading__message').hide();
+            $('.header__message').show();
+            $('.header_container').hide();
         }
 
         function showModal(name, height, weight, abilities, types, imageUrl) {
@@ -88,23 +69,16 @@ const uiElement = (
             $('.img__attr').attr('src', '');
         }
 
-        function getNextPokemonsBatch(e) {
+        function getPokemonsBatch(e, url) {
             cleanUI(e);
-            pokemonRepository.renderPage(nextUrl);
-        }
-
-        function getPrevPokemonsBatch(e) {
-            cleanUI(e);
-            pokemonRepository.renderPage(prevUrl);
+            pokemonRepository.renderPage(url);
         }
 
         function cleanUI(e) {
             e.preventDefault();
             $('.pokemon__column').empty();
-            console.log('Cleaning UI');
             pokemonRepository.emptyPokemonsList();
         }
-
 
         return {
             showLoadingMessage,
@@ -113,15 +87,14 @@ const uiElement = (
             hideModal,
             resetModal,
             updatePagination,
-            getPrevPokemonsBatch,
-            getNextPokemonsBatch,
+            getPokemonsBatch,
             cleanUI
         };
     })();
 
 
-////////////////////////////////  EVENT LISTENERS
-
+//Hide the search function until ALL pokemon is selected
+$(".search").hide();
 
 $(".search").on('input', () => {
     const pokemonList = $(".pokemon__item");
@@ -132,31 +105,32 @@ $(".search").on('input', () => {
 
         !btnText.includes(searchValue) ? p.setAttribute('style', 'display: none !important') : p.style.display = "";
     });
-
 });
 
 $(".next").on('click', (e) => {
-    uiElement.getNextPokemonsBatch(e);
-    
-        if (paginationIndex != 1)
-        $('.pagination').firstChild.removeClass('disabled');
-    
+    let nextUrl = $(".next").attr('href');
+    uiElement.getPokemonsBatch(e, nextUrl);
 });
 
 $(".prev").on('click', (e) => {
-    uiElement.getNextPokemonsBatch(e);
-    if (paginationIndex == 1)
-        $('.pagination').firstChild.addClass('disabled');
+    let prevUrl = $(".prev").attr('href');
+    uiElement.getPokemonsBatch(e, prevUrl);
 });
 
 
-//SEARCH FUNCTION
+
+
+
+
+
+///////////////////////////////////////////////   DEPRECATED   //////////////////////////////////////////
+
+//SEARCH FUNCTION Vanilla JS
 
 // const searchInput = document.querySelector(".search");
 // searchInput.addEventListener("input", () => {
 //     const pokemonList = document.querySelectorAll(".pokemon__item");
 //     const searchValue = searchInput.value.toUpperCase();
-
 //     pokemonList.forEach((p) => {
 //         const btnText = p.childNodes[0].innerText;
 //         if (!btnText.includes(searchValue)) {

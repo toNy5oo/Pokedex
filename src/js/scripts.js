@@ -26,8 +26,8 @@ const pokemonRepository = (
                 return response.json();
             }).then(function(json) {
 
-                console.log('Next: '+json.next+'<br>Prev: '+json.prev);
-                uiElement.updatePagination(json.next, json.prev);
+                console.log('Next: ' + json.next + '<br>Prev: ' + json.previous);
+                uiElement.updatePagination(json.next, json.previous);
 
                 json.results.forEach(function(fetchedPokemon) {
                     let pokemon = {
