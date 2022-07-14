@@ -18,6 +18,12 @@ The app shows a list of Pokemons on which the used can click to retrieve additio
 - polyfill.js
 - fetch.js
 
-## Connected database
+## Key features
 
-- No local database being used. Pokemons are fetched from the API in JSON form.
+- Load data from an external source (API)-
+- View a list of items
+- On user action (e.g., by clicking on a list item), view details for that item
+
+**Demo
+
+The live version can be accessed here: https://tony5oo.github.io/Pokedex/
